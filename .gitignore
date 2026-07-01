@@ -1,0 +1,13 @@
+# Data files
+*.csv
+*.pdf
+data/
+sample_data/
+instance/
+
+# Common junk
+.DS_Store
+__pycache__/
+*.pyc
+.venv
+node_modules/

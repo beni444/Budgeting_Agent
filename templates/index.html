@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form class="card" action="{{ url_for('process_budget') }}" method="POST" enctype="multipart/form-data">
+    <section>
+        <h2>1. Budget Period</h2>
+
+        <div class="grid two">
+            <label>
+                Start date
+                <input type="date" name="start_date" required>
+            </label>
+
+            <label>
+                End date
+                <input type="date" name="end_date" required>
+            </label>
+
+            <label>
+                Planned savings
+                <input type="number" name="planned_savings" step="0.01" value="0">
+            </label>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Bank Accounts</h2>
+
+        <label>
+            How many accounts do you want to include?
+            <input type="number" id="account_count" name="account_count" value="2" min="1" max="6">
+        </label>
+
+        <button type="button" class="secondary-button" onclick="renderAccounts()">Update accounts</button>
+
+        <div id="accounts_container"></div>
+    </section>
+
+    <section>
+        <h2>3. Categories and Subcategories</h2>
+
+        <label>
+            How many categories do you want?
+            <input type="number" id="category_count" name="category_count" value="3" min="1" max="8">
+        </label>
+
+        <button type="button" class="secondary-button" onclick="renderCategories()">Update categories</button>
+
+        <div id="categories_container"></div>
+    </section>
+
+    <section>
+        <h2>4. Transfer and Income Clues</h2>
+
+        <div class="grid two">
+            <label>
+                Internal transfer keywords
+                <input type="text" name="internal_transfer_keywords" value="expenses, transfer, tpp">
+                <span>Used as clues only. Actual internal transfers are matched against included accounts.</span>
+            </label>
+
+            <label>
+                Your name / own account clues
+                <input type="text" name="own_account_transfer_keywords" placeholder="Example: Benika, Revolut">
+            </label>
+
+            <label>
+                Salary/income keywords
+                <input type="text" name="salary_keywords" value="salary, payroll, wages">
+            </label>
+
+            <label>
+                Ignore keywords
+                <input type="text" name="ignore_keywords" value="balance forward">
+            </label>
+        </div>
+    </section>
+
+    <button class="primary-button" type="submit">Create Budget Report</button>
+</form>
+
+<script>
+const defaultCategories = [
+    {
+        name: "Essentials",
+        color: "red",
+        limit: "",
+        subcategories: [
+            {
+                name: "rent",
+                description: "monthly rent or housing payment",
+                limit: ""
+            },
+            {
+                name: "groceries",
+                description: "supermarket and food shopping",
+                limit: ""
+            },
+            {
+                name: "bills",
+                description: "electricity, gas, household bills",
+                limit: ""
+            },
+            {
+                name: "mobile",
+                description: "phone bill or recharge",
+                limit: ""
+            },
+            {
+                name: "wifi",
+                description: "broadband or internet bill",
+                limit: ""
+            },
+            {
+                name: "commute",
+                description: "luas, bus, train, leap card",
+                limit: ""
+            }
+        ]
+    },
+    {
+        name: "Optionals",
+        color: "yellow",
+        limit: "",
+        subcategories: [
+            {
+                name: "shopping",
+                description: "clothes, jewellery, beauty, home stuff",
+                limit: ""
+            },
+            {
+                name: "investments",
+                description: "investing, trading, savings pots",
+                limit: ""
+            }
+        ]
+    },
+    {
+        name: "Extras",
+        color: "green",
+        limit: "",
+        subcategories: [
+            {
+                name: "going out",
+                description: "restaurants, cafes, coffee, activities, travel, accommodation, entertainment",
+                limit: ""
+            }
+        ]
+    }
+];
+
+function renderAccounts() {
+    const count = parseInt(document.getElementById("account_count").value || "1");
+    const container = document.getElementById("accounts_container");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= count; i++) {
+        const div = document.createElement("div");
+        div.className = "nested-card";
+
+        div.innerHTML = `
+            <h3>Account ${i}</h3>
+
+            <div class="grid two">
+                <label>
+                    Account name
+                    <input type="text" name="account_name_${i}" placeholder="Example: AIB Main" required>
+                </label>
+
+                <label>
+                    Bank statement PDF
+                    <input type="file" name="account_file_${i}" accept="application/pdf" required>
+                </label>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" name="account_income_${i}" ${i === 1 ? "checked" : ""}>
+                    I receive income/salary in this account
+                </label>
+            </div>
+        `;
+
+        container.appendChild(div);
+    }
+}
+
+function renderSubcategories(categoryIndex, defaultSubcategories) {
+    let html = "";
+
+    for (let j = 1; j <= defaultSubcategories.length; j++) {
+        const sub = defaultSubcategories[j - 1];
+
+        html += `
+            <div class="nested-card">
+                <h4>Subcategory ${j}</h4>
+
+                <div class="grid two">
+                    <label>
+                        Subcategory name
+                        <input type="text" name="subcategory_name_${categoryIndex}_${j}" value="${sub.name}" required>
+                    </label>
+
+                    <label>
+                        Optional planned limit
+                        <input type="number" step="0.01" name="subcategory_limit_${categoryIndex}_${j}" value="${sub.limit}" placeholder="Leave empty if no limit">
+                    </label>
+                </div>
+
+                <label>
+                    Short description
+                    <textarea name="subcategory_description_${categoryIndex}_${j}" rows="3" required>${sub.description}</textarea>
+                    <span>This helps the AI understand what belongs here.</span>
+                </label>
+            </div>
+        `;
+    }
+
+    return html;
+}
+
+function renderCategories() {
+    const count = parseInt(document.getElementById("category_count").value || "3");
+    const container = document.getElementById("categories_container");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= count; i++) {
+        const defaults = defaultCategories[i - 1] || {
+            name: "",
+            color: "blue",
+            limit: "",
+            subcategories: [
+                {
+                    name: "",
+                    description: "",
+                    limit: ""
+                }
+            ]
+        };
+
+        const div = document.createElement("div");
+        div.className = "nested-card";
+
+        div.innerHTML = `
+            <h3>Category ${i}</h3>
+
+            <div class="grid two">
+                <label>
+                    Category name
+                    <input type="text" name="category_name_${i}" value="${defaults.name}" required>
+                </label>
+
+                <label>
+                    Color
+                    <select name="category_color_${i}">
+                        <option value="red" ${defaults.color === "red" ? "selected" : ""}>Red</option>
+                        <option value="yellow" ${defaults.color === "yellow" ? "selected" : ""}>Yellow</option>
+                        <option value="green" ${defaults.color === "green" ? "selected" : ""}>Green</option>
+                        <option value="blue" ${defaults.color === "blue" ? "selected" : ""}>Blue</option>
+                        <option value="orange" ${defaults.color === "orange" ? "selected" : ""}>Orange</option>
+                        <option value="purple" ${defaults.color === "purple" ? "selected" : ""}>Purple</option>
+                    </select>
+                </label>
+
+                <label>
+                    Overall category limit
+                    <input type="number" step="0.01" name="category_limit_${i}" value="${defaults.limit}" placeholder="Optional">
+                </label>
+
+                <label>
+                    How many subcategories?
+                    <input type="number" id="subcategory_count_${i}" name="subcategory_count_${i}" value="${defaults.subcategories.length}" min="1" max="20">
+                </label>
+            </div>
+
+            <button type="button" class="secondary-button" onclick="renderOneCategorySubcategories(${i})">
+                Update subcategories
+            </button>
+
+            <div id="subcategory_container_${i}">
+                ${renderSubcategories(i, defaults.subcategories)}
+            </div>
+        `;
+
+        container.appendChild(div);
+    }
+}
+
+function renderOneCategorySubcategories(categoryIndex) {
+    const countInput = document.getElementById(`subcategory_count_${categoryIndex}`);
+    const count = parseInt(countInput.value || "1");
+    const container = document.getElementById(`subcategory_container_${categoryIndex}`);
+
+    let defaults = [];
+
+    if (defaultCategories[categoryIndex - 1]) {
+        defaults = defaultCategories[categoryIndex - 1].subcategories;
+    }
+
+    const subcategories = [];
+
+    for (let j = 1; j <= count; j++) {
+        const existingName = document.querySelector(`[name="subcategory_name_${categoryIndex}_${j}"]`);
+        const existingDescription = document.querySelector(`[name="subcategory_description_${categoryIndex}_${j}"]`);
+        const existingLimit = document.querySelector(`[name="subcategory_limit_${categoryIndex}_${j}"]`);
+
+        if (existingName || existingDescription || existingLimit) {
+            subcategories.push({
+                name: existingName ? existingName.value : "",
+                description: existingDescription ? existingDescription.value : "",
+                limit: existingLimit ? existingLimit.value : ""
+            });
+        } else if (defaults[j - 1]) {
+            subcategories.push(defaults[j - 1]);
+        } else {
+            subcategories.push({
+                name: "",
+                description: "",
+                limit: ""
+            });
+        }
+    }
+
+    container.innerHTML = renderSubcategories(categoryIndex, subcategories);
+}
+
+renderAccounts();
+renderCategories();
+</script>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+[
+  {
+    "merchant_pattern": "lovisa",
+    "category_id": "cat_2_optionals",
+    "category_name": "Optionals",
+    "subcategory": "shopping"
+  },
+  {
+    "merchant_pattern": "makemytrip",
+    "category_id": "cat_4_india_extras",
+    "category_name": "India Extras",
+    "subcategory": "Tickets"
+  },
+  {
+    "merchant_pattern": "boots retail",
+    "category_id": "cat_2_optionals",
+    "category_name": "Optionals",
+    "subcategory": "shopping"
+  },
+  {
+    "merchant_pattern": "myprotein",
+    "category_id": "cat_2_optionals",
+    "category_name": "Optionals",
+    "subcategory": "shopping"
+  },
+  {
+    "merchant_pattern": "mobi rent may",
+    "category_id": "cat_1_essentials",
+    "category_name": "Essentials",
+    "subcategory": "rent"
+  },
+  {
+    "merchant_pattern": "mobi gas ebill",
+    "category_id": "cat_1_essentials",
+    "category_name": "Essentials",
+    "subcategory": "bills"
+  },
+  {
+    "merchant_pattern": "butlers cho",
+    "category_id": "cat_3_extras",
+    "category_name": "Extras",
+    "subcategory": "going out"
+  },
+  {
+    "merchant_pattern": "sam mccaule",
+    "category_id": "cat_3_extras",
+    "category_name": "Extras",
+    "subcategory": "going out"
+  },
+  {
+    "merchant_pattern": "marks spen",
+    "category_id": "cat_2_optionals",
+    "category_name": "Optionals",
+    "subcategory": "shopping"
+  },
+  {
+    "merchant_pattern": "mcdonalds707",
+    "category_id": "cat_3_extras",
+    "category_name": "Extras",
+    "subcategory": "going out"
+  },
+  {
+    "merchant_pattern": "penneys dun",
+    "category_id": "cat_2_optionals",
+    "category_name": "Optionals",
+    "subcategory": "shopping"
+  }
+]

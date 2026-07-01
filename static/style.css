@@ -1,0 +1,302 @@
+:root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --blue: #2563eb;
+    --blue-dark: #1d4ed8;
+    --border: #d9e2ef;
+    --red: #ff4d4d;
+    --yellow: #ffd966;
+    --green: #a9d18e;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.page-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px;
+}
+
+.app-header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 24px;
+    box-shadow: 0 14px 35px rgba(37, 99, 235, 0.25);
+}
+
+.app-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 34px;
+}
+
+.app-header p {
+    margin: 0;
+    color: #e0e7ff;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+section {
+    margin-bottom: 34px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--border);
+}
+
+section:last-of-type {
+    border-bottom: none;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 22px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.grid {
+    display: grid;
+    gap: 18px;
+}
+
+.grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    gap: 8px;
+}
+
+label span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: normal;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 15px;
+    background: white;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.checkbox-label {
+    flex-direction: row;
+    align-items: center;
+    font-weight: normal;
+    gap: 10px;
+}
+
+.checkbox-label input {
+    width: auto;
+}
+
+.nested-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.primary-button,
+.secondary-button {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.primary-button {
+    background: var(--blue);
+    color: white;
+}
+
+.primary-button:hover {
+    background: var(--blue-dark);
+}
+
+.secondary-button {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    margin-top: 12px;
+}
+
+.secondary-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--blue);
+    font-weight: bold;
+}
+
+.flash-box {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 22px 0;
+}
+
+.metric {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.metric span {
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.metric strong {
+    font-size: 24px;
+}
+
+.metric.warning {
+    background: #fff7ed;
+    border-color: #fdba74;
+}
+
+.download-panel {
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 22px;
+}
+
+.download-panel p {
+    color: #166534;
+    margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+    .grid.two,
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-shell {
+        padding: 16px;
+    }
+}
+
+.review-summary {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.review-card {
+    background: #f8fafc;
+    border: 1px solid #d9e2ef;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.review-card-header p {
+    margin: 6px 0 0 0;
+    color: #64748b;
+}
+
+.pill {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    padding: 7px 11px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.review-details {
+    margin-top: 14px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.review-details p {
+    margin: 6px 0;
+}
+
+.review-reason {
+    color: #9a3412;
+    background: #ffedd5;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.review-question {
+    margin-top: 14px;
+}
+
+.transfer-question {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.hint {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 0;
+}

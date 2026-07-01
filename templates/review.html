@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form class="card" action="{{ url_for('finalize_budget', run_id=run_id) }}" method="POST">
+    <h2>Review transactions before final report</h2>
+
+    <p class="privacy-note">
+        Review AI categories and decide whether transfers to other accounts should count as expenses.
+        Your corrections will be saved as learned rules for future months.
+    </p>
+
+    <div class="review-summary">
+        <strong>{{ transaction_count }}</strong> transactions processed.
+        <strong>{{ review_count }}</strong> transactions shown for review.
+    </div>
+
+    {% if transactions|length == 0 %}
+        <div class="success-message">
+            No transactions need review. You can finalize the report now.
+        </div>
+    {% endif %}
+
+    {% for tx in transactions %}
+        <div class="review-card">
+            <div class="review-card-header">
+                <div>
+                    <strong>{{ tx.description }}</strong>
+                    <p>{{ tx.date }} · {{ tx.account_name }} · €{{ tx.amount }}</p>
+                </div>
+
+                <span class="pill">{{ tx.transaction_type }}</span>
+            </div>
+
+            <div class="review-details">
+                <p>
+                    Current label:
+                    <strong>{{ tx.category_name }}{% if tx.subcategory %} → {{ tx.subcategory }}{% endif %}</strong>
+                </p>
+
+                <p>
+                    Method:
+                    <strong>{{ tx.categorization_method }}</strong>
+                    {% if tx.ai_confidence %}
+                        · AI confidence: {{ tx.ai_confidence }}
+                    {% endif %}
+                </p>
+
+                {% if tx.review_reasons %}
+                    <p class="review-reason">{{ tx.review_reasons }}</p>
+                {% endif %}
+            </div>
+
+            {% if tx.transaction_type == "external_transfer_out" %}
+                <div class="review-question transfer-question">
+                    <label>
+                        Should this transfer be included in final expenses?
+                        <select name="include_transfer_{% raw %}{{ tx.transaction_id }}{% endraw %}">
+                            <option value="">Choose</option>
+                            <option value="yes">Yes, count this as spending</option>
+                            <option value="no">No, exclude from spending/savings calculation</option>
+                        </select>
+                    </label>
+
+                    <p class="hint">
+                        Use Yes if this was sent to someone else or spent outside the included accounts.
+                        Use No if it is just your own money moved to another account.
+                    </p>
+                </div>
+            {% endif %}
+
+            {% if tx.transaction_type == "expense" %}
+                <div class="review-question">
+                    <label>
+                        Category correction
+                        <select name="category_choice_{{ tx.transaction_id }}">
+                            <option value="__keep__">Keep current: {{ tx.category_name }} → {{ tx.subcategory }}</option>
+
+                            {% for category in config.categories %}
+                                {% for subcategory in category.subcategories %}
+                                    <option value="{{ category.name }}||{{ subcategory.name }}">
+                                        {{ category.name }} → {{ subcategory.name }}
+                                    </option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            {% else %}
+                <input type="hidden" name="category_choice_{{ tx.transaction_id }}" value="__keep__">
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button class="primary-button" type="submit">Finalize Excel Report</button>
+</form>
+
+{% endblock %}

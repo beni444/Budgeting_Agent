@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card result-card">
+    <h2>Your budget report is ready</h2>
+
+    <div class="summary-grid">
+        <div class="metric">
+            <span>Total income</span>
+            <strong>€{{ summary.total_income }}</strong>
+        </div>
+
+        <div class="metric">
+            <span>Total expenses</span>
+            <strong>€{{ summary.total_expenses }}</strong>
+        </div>
+
+        <div class="metric">
+            <span>Actual savings</span>
+            <strong>€{{ summary.actual_savings }}</strong>
+        </div>
+
+        <div class="metric">
+            <span>Planned savings</span>
+            <strong>€{{ summary.planned_savings }}</strong>
+        </div>
+
+        <div class="metric">
+            <span>Transactions processed</span>
+            <strong>{{ transaction_count }}</strong>
+        </div>
+
+        <div class="metric warning">
+            <span>Needs review</span>
+            <strong>{{ review_count }}</strong>
+        </div>
+    </div>
+
+    <div class="download-panel">
+        <a class="primary-button" href="{{ download_url }}">Download Excel Report</a>
+        <p>The uploaded PDFs and extracted transaction files have already been deleted. Only learned matching rules are kept.</p>
+    </div>
+
+    <a class="secondary-link" href="{{ url_for('index') }}">Create another report</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{
+  "budget_period": {
+    "start_date": "2025-10-23",
+    "end_date": "2025-11-20"
+  },
+  "accounts": [
+    {
+      "account_id": "account_1_aib",
+      "display_name": "AIB",
+      "is_main_income_account": true,
+      "transaction_file": "aib_transactions.json"
+    },
+    {
+      "account_id": "account_2_boi",
+      "display_name": "BOI",
+      "is_main_income_account": false,
+      "transaction_file": "boi_transactions.json"
+    }
+  ],
+  "categories": [
+    {
+      "category_id": "cat_1_essentials",
+      "name": "Essentials",
+      "color": "red",
+      "description": "red category for Essentials.",
+      "monthly_limit": 1006.0,
+      "subcategories": [
+        {
+          "subcategory_id": "cat_1_sub_1_rent",
+          "name": "rent",
+          "description": "rent paid each month",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_1_sub_2_groceries",
+          "name": "groceries",
+          "description": "aldi,tesco,centra etc",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_1_sub_3_bills",
+          "name": "bills",
+          "description": "electricity and gas bills",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_1_sub_4_mobile",
+          "name": "mobile",
+          "description": "tesco mobile, 48months, phone bill, mobile recharge, sim plan",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_1_sub_5_wifi",
+          "name": "wifi",
+          "description": "virgin media, broadband, wifi, internet",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_1_sub_6_commute",
+          "name": "commute",
+          "description": "luas, leap card, bus, train, tram, public transport, commute",
+          "examples": [],
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "category_id": "cat_2_optionals",
+      "name": "optionals",
+      "color": "yellow",
+      "description": "yellow category for optionals.",
+      "monthly_limit": 195.0,
+      "subcategories": [
+        {
+          "subcategory_id": "cat_2_sub_1_shopping",
+          "name": "shopping",
+          "description": "jewellery, clothes, home stuff, department store stuff",
+          "examples": [],
+          "keywords": []
+        },
+        {
+          "subcategory_id": "cat_2_sub_2_investments",
+          "name": "investments",
+          "description": "internal transfer for investments",
+          "examples": [],
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "category_id": "cat_3_extras",
+      "name": "extras",
+      "color": "green",
+      "description": "green category for extras.",
+      "monthly_limit": 50.0,
+      "subcategories": [
+        {
+          "subcategory_id": "cat_3_sub_1_going_out",
+          "name": "going out",
+          "description": "restaurant, restaur, coffee, cafe, arcade, lane7, lounge, takeaway, eating out",
+          "examples": [],
+          "keywords": []
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "internal_transfer_keywords": [
+      "expenses"
+    ],
+    "own_account_transfer_keywords": [
+      "Benika",
+      "*TPP"
+    ],
+    "salary_keywords": [
+      "BOI Group"
+    ],
+    "ignore_keywords": [
+      "balance forward"
+    ]
+  },
+  "planned_savings": 1000.0
+}
