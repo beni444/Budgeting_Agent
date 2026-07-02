@@ -1,13 +1,47 @@
-# Data files
-*.csv
-*.pdf
-data/
-sample_data/
-instance/
+# Virtual environment
+.venv/
+venv/
+env/
 
-# Common junk
-.DS_Store
+# Python cache
 __pycache__/
 *.pyc
-.venv
-node_modules/
+*.pyo
+*.pyd
+
+# Flask / local runtime
+instance/
+temp_runs/
+review_runs/
+downloads/
+
+# Sensitive bank files
+*.pdf
+*.xlsx
+*.xls
+*.csv
+
+# Generated outputs
+budget_report_transactions.csv
+budget_summary.json
+budget_report*.xlsx
+transactions.json
+transactions.csv
+*_transactions.json
+*_transactions.csv
+
+# Personal configs / learned private data
+budget_config.json
+learned_rules.json
+
+# Environment variables / secrets
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
